@@ -50,6 +50,7 @@ ed.leader_map {
     ['.']        = '<cmd>Telescope find_files<cr>',
     [':']        = '<cmd>Telescope commands<cr>',
     ['b']        = '<cmd>Telescope buffers<cr>',
+    ['g']        = '<cmd>Git<cr>',
     ['w']        = '<C-w>',
     ['s']        = ':%s//gc<Left><Left><Left>',
     ['oc']       = '<cmd>vsplit $MYVIMRC<cr>',

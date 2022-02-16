@@ -1,6 +1,6 @@
 -- Autocompletion + lsp setup:
 
-local cmp = require('cmp')
+local cmp = require 'cmp'
 
 cmp.setup {
   mapping = {

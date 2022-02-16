@@ -8,7 +8,7 @@ function this.set_options(options)
   end
 end
 
--- Theme setting:
+-- Visual configuring:
 
 function this.set_theme(theme)
   vim.opt.termguicolors = true
@@ -16,7 +16,10 @@ function this.set_theme(theme)
   require('lualine').setup {
     options = {
       theme = theme,
-    }
+    },
+    sections = {
+      lualine_x = {'filetype'},
+    },
   }
 end
 

@@ -5,11 +5,12 @@ let s:font_size = 14
 
 " Font-related functions:
 
+let s:actual_font_size = s:font_size
+
 function! SetFont()
   execute "GuiFont! " . s:font_family . ":h" . s:font_size
+  let s:actual_font_size = s:font_size
 endfunction
-
-let s:actual_font_size = s:font_size
 
 function! AdjustFontSize(amount)
   let s:actual_font_size = s:actual_font_size+a:amount
