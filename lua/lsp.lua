@@ -36,4 +36,3 @@ for _, server in pairs(my_servers) do
     capabilities = capabilities,
   }
 end
-

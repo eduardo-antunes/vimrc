@@ -16,6 +16,12 @@ require('packer').startup(function ()
   -- tokyonight theme
   use 'folke/tokyonight.nvim'
 
+  -- dracula theme
+  use 'Mofiqul/dracula.nvim'
+
+  -- onenord theme
+  use 'rmehri01/onenord.nvim'
+
   -- lualine
   use 'nvim-lualine/lualine.nvim'
 
@@ -38,7 +44,14 @@ require('packer').startup(function ()
 
   use { 
     'nvim-telescope/telescope-fzf-native.nvim', 
-    run = 'make' 
+    run = 'make',
+  }
+
+  -- File manager
+  use {
+    'ms-jpq/chadtree',
+    branch = 'chad',
+    run = ':CHADdeps',
   }
 
   -- lsp configuration
@@ -56,7 +69,7 @@ require('packer').startup(function ()
   -- tree-sitter configuration
     use {
       'nvim-treesitter/nvim-treesitter',
-      run = ':TSUpdate'
+      run = ':TSUpdate',
     }
 
 end)
@@ -75,4 +88,3 @@ require('nvim-treesitter.configs').setup {
     enable = true,
   }
 }
-

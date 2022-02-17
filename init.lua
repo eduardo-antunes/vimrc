@@ -9,12 +9,12 @@ local ed = require 'utils'
 
 ed.set_theme 'tokyonight'
 
-local stdpath = vim.fn.stdpath
+local undodir = vim.fn.stdpath('cache') .. '/undodir'
 
 ed.set_options {
     mouse          = 'a',
     signcolumn     = 'yes',
-    undodir        = stdpath('cache') .. '/undodir',
+    undodir        = undodir,
     scrolloff      = 8,
     tabstop        = 4,
     softtabstop    = 4,
@@ -45,15 +45,21 @@ ed.set_options {
 ed.set_leader ' '
 ed.set_localleader ','
 
-ed.leader_map {
-    ['<leader>'] = '<cmd>Telescope file_browser<cr>',
-    ['.']        = '<cmd>Telescope find_files<cr>',
-    [':']        = '<cmd>Telescope commands<cr>',
-    ['b']        = '<cmd>Telescope buffers<cr>',
-    ['g']        = '<cmd>Git<cr>',
-    ['w']        = '<C-w>',
-    ['s']        = ':%s//gc<Left><Left><Left>',
-    ['oc']       = '<cmd>vsplit $MYVIMRC<cr>',
-    ['ev']       = '<cmd>source %<cr>',
-}
+local cmd = ed.vim_cmd
+local pr  = ed.vim_prompt
 
+local tb = require 'telescope.builtin'
+
+ed.leader_map {
+    ['<leader>'] = tb.file_browser,
+    ['.']        = tb.find_files,
+    [':']        = tb.commands,
+    ['b']        = tb.buffers,
+    ['g']        = cmd 'Git',
+    ['of']       = cmd 'CHADopen',
+    ['oc']       = cmd 'vsplit $MYVIMRC',
+    ['ev']       = cmd 'source %',
+    ['G']        = pr 'Git ',
+    ['s']        = pr '%s/',
+    ['w']        = '<C-w>',
+}

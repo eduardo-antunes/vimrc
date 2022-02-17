@@ -30,4 +30,3 @@ call SetFont() " Setting the font on startup
 " Other settings:
 
 GuiTabline v:false
-
