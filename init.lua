@@ -49,14 +49,15 @@ local cmd = ed.vim_cmd
 local pr  = ed.vim_prompt
 
 local tb = require 'telescope.builtin'
+local te = require 'telescope'.extensions
 
 ed.leader_map {
-    ['<leader>'] = tb.file_browser,
+    ['<leader>'] = te.file_browser.file_browser,
     ['.']        = tb.find_files,
     [':']        = tb.commands,
     ['b']        = tb.buffers,
     ['g']        = cmd 'Git',
-    ['of']       = cmd 'CHADopen',
+    ['ot']       = cmd 'Tnew',
     ['oc']       = cmd 'vsplit $MYVIMRC',
     ['ev']       = cmd 'source %',
     ['G']        = pr 'Git ',

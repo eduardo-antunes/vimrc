@@ -21,18 +21,12 @@ function this.set_theme(theme)
       lualine_x = {'filetype'},
     },
   }
-  local chadtree = {
-    theme = {
-      text_colour_set = 'nord',
-    }
-  }
-  vim.api.nvim_set_var('chadtree_settings', chadtree)
 end
 
 -- Key binding:
 
 this.bound_functions = {}
-this.bound_i = 1
+this.bound_count = 1
 
 function this.set_leader(leader)
   vim.g.mapleader = leader
@@ -53,15 +47,15 @@ end
 function this.leader_map(bindings)
   for lhs, rhs in pairs(bindings) do
     if type(rhs) == 'string' then
-      this.bind('n', vim.g.mapleader .. lhs, rhs)
+      this.bind('n', '<leader>' .. lhs, rhs)
     else
-      this.bound_functions[this.bound_i] = rhs
+      this.bound_functions[this.bound_count] = rhs
       local func_rhs = 
         '<cmd>lua require("utils").bound_functions[' 
-        .. this.bound_i .. 
+        .. this.bound_count .. 
         ']()<cr>'
-      this.bound_i = this.bound_i + 1
-      this.bind('n', vim.g.mapleader .. lhs, func_rhs)
+      this.bound_count = this.bound_count + 1
+      this.bind('n', '<leader>' .. lhs, func_rhs)
     end
   end
 end

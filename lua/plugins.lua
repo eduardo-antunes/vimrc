@@ -30,6 +30,9 @@ require('packer').startup(function ()
   use 'tpope/vim-fugitive'
   use 'tpope/vim-surround'
 
+  -- awesome wrapper for the builtin terminal
+  use 'kassio/neoterm'
+
   -- pretty icons
   use 'kyazdani42/nvim-web-devicons'
 
@@ -47,13 +50,6 @@ require('packer').startup(function ()
     run = 'make',
   }
 
-  -- File manager
-  use {
-    'ms-jpq/chadtree',
-    branch = 'chad',
-    run = ':CHADdeps',
-  }
-
   -- lsp configuration
   use 'neovim/nvim-lspconfig'
 
@@ -62,6 +58,7 @@ require('packer').startup(function ()
 
   -- autocomplete sources
   use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-nvim-lua'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
@@ -75,6 +72,9 @@ require('packer').startup(function ()
 end)
 
 -- Plugin configurations:
+
+vim.g.neoterm_size = '7'
+vim.g.neoterm_default_mod = 'botright'
 
 require('nvim-autopairs').setup()
 
