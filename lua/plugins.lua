@@ -22,6 +22,9 @@ require('packer').startup(function ()
   -- onenord theme
   use 'rmehri01/onenord.nvim'
 
+  -- gruvbox material theme
+  use 'sainnhe/gruvbox-material'
+
   -- lualine
   use 'nvim-lualine/lualine.nvim'
 
@@ -29,6 +32,12 @@ require('packer').startup(function ()
   use 'tpope/vim-commentary'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-surround'
+
+  -- magit for neovim
+  use {
+    'TimUntersberger/neogit',
+    requires = 'nvim-lua/plenary.nvim',
+  }
 
   -- awesome wrapper for the builtin terminal
   use 'kassio/neoterm'
@@ -64,16 +73,16 @@ require('packer').startup(function ()
   use 'hrsh7th/cmp-cmdline'
 
   -- tree-sitter configuration
-    use {
-      'nvim-treesitter/nvim-treesitter',
-      run = ':TSUpdate',
-    }
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+  }
 
 end)
 
--- Plugin configurations:
+-- Plugin setup and configuration:
 
-vim.g.neoterm_size = '7'
+vim.g.neoterm_size = '10'
 vim.g.neoterm_default_mod = 'botright'
 
 require('nvim-autopairs').setup()

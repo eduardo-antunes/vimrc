@@ -1,6 +1,6 @@
 " Font configuration:
 
-let s:font_family = "Iosevka Nerd Font"
+let s:font_family = "Iosevka Term"
 let s:font_size = 14
 
 " Font-related functions:

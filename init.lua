@@ -48,19 +48,32 @@ ed.set_localleader ','
 local cmd = ed.vim_cmd
 local pr  = ed.vim_prompt
 
-local tb = require 'telescope.builtin'
-local te = require 'telescope'.extensions
+local telescope = require 'telescope.builtin'
+local file_browser =  
+    require 'telescope'.extensions
+                       .file_browser
+                       .file_browser
+local neogit = require 'neogit'
 
 ed.leader_map {
-    ['<leader>'] = te.file_browser.file_browser,
-    ['.']        = tb.find_files,
-    [':']        = tb.commands,
-    ['b']        = tb.buffers,
+    ['<leader>'] = file_browser,
+    ['.']        = telescope.find_files,
+    [':']        = telescope.commands,
+    ['b']        = telescope.buffers,
+    ['ng']       = neogit.open,
     ['g']        = cmd 'Git',
-    ['ot']       = cmd 'Tnew',
+    ['ot']       = cmd 'Ttoggle',
     ['oc']       = cmd 'vsplit $MYVIMRC',
     ['ev']       = cmd 'source %',
+    ['q']        = cmd 'lopen',
+    ['j']        = cmd 'lnext',
+    ['k']        = cmd 'lprev',
     ['G']        = pr 'Git ',
     ['s']        = pr '%s/',
     ['w']        = '<C-w>',
 }
+
+ed.bind('n', '<C-q>', cmd 'copen')
+ed.bind('n', '<C-j>', cmd 'copen')
+ed.bind('n', '<C-k>', cmd 'cprev')
+
