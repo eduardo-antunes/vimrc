@@ -13,50 +13,51 @@ require('packer').startup(function ()
   -- eletric-pairs for neovim
   use 'windwp/nvim-autopairs'
 
-  -- tokyonight theme
-  use 'folke/tokyonight.nvim'
-
-  -- dracula theme
-  use 'Mofiqul/dracula.nvim'
-
-  -- onenord theme
-  use 'rmehri01/onenord.nvim'
-
-  -- gruvbox material theme
-  use 'sainnhe/gruvbox-material'
+  -- one dark theme
+  use 'navarasu/onedark.nvim'
 
   -- lualine
   use 'nvim-lualine/lualine.nvim'
+
+  -- pretty icons
+  use 'kyazdani42/nvim-web-devicons'
 
   -- tpope
   use 'tpope/vim-commentary'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-surround'
 
-  -- magit for neovim
+  -- neogit for quick git operations
   use {
     'TimUntersberger/neogit',
     requires = 'nvim-lua/plenary.nvim',
   }
 
-  -- awesome wrapper for the builtin terminal
+  -- wrapper for the builtin terminal
   use 'kassio/neoterm'
 
-  -- pretty icons
-  use 'kyazdani42/nvim-web-devicons'
+  -- harpoon > marks
+  use 'ThePrimeagen/harpoon'
 
-  -- Telescope fuzzy finder
+  -- telescope for fuzzy finding
   use { 
     'nvim-telescope/telescope.nvim',
     requires = 'nvim-lua/plenary.nvim',
   }
 
-  -- Telescope extensions
+  -- file browser built on telescope
   use 'nvim-telescope/telescope-file-browser.nvim'
 
+  -- grants telescope the gift of native speed
   use { 
     'nvim-telescope/telescope-fzf-native.nvim', 
     run = 'make',
+  }
+
+  -- tree-sitter configuration
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
   }
 
   -- lsp configuration
@@ -72,28 +73,22 @@ require('packer').startup(function ()
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
 
-  -- tree-sitter configuration
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
-  }
-
 end)
 
--- Plugin setup and configuration:
+-- Plugin configuration:
 
 vim.g.neoterm_size = '10'
 vim.g.neoterm_default_mod = 'botright'
 
 require('nvim-autopairs').setup()
 
-require('telescope').setup()
-require('telescope').load_extension 'file_browser'
-require('telescope').load_extension 'fzf'
+local t = require 'telescope'
+t.load_extension 'file_browser'
+t.load_extension 'harpoon'
+t.load_extension 'fzf'
 
 require('nvim-treesitter.configs').setup {
   ensure_installed = 'maintained',
-  highlight = {
-    enable = true,
-  }
+  highlight = { enable = true },
+  indent    = { enable = true },
 }

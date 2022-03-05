@@ -7,7 +7,7 @@ local ed = require 'utils'
 
 -- Colorscheme and settings:
 
-ed.set_theme 'tokyonight'
+ed.set_theme 'onedark'
 
 local undodir = vim.fn.stdpath('cache') .. '/undodir'
 
@@ -45,34 +45,50 @@ ed.set_options {
 ed.set_leader ' '
 ed.set_localleader ','
 
-local cmd = ed.vim_cmd
-local pr  = ed.vim_prompt
+local cmd, ex = ed.cmd, ed.ex
 
-local telescope = require 'telescope.builtin'
-local file_browser =  
-    require 'telescope'.extensions
-                       .file_browser
-                       .file_browser
-local neogit = require 'neogit'
+local tb = require 'telescope.builtin'
+local file_browser = require('telescope')
+                        .extensions
+                        .file_browser
+                        .file_browser
 
 ed.leader_map {
+    -- Telescope
     ['<leader>'] = file_browser,
-    ['.']        = telescope.find_files,
-    [':']        = telescope.commands,
-    ['b']        = telescope.buffers,
-    ['ng']       = neogit.open,
+    ['.']        = tb.find_files,
+    [':']        = tb.commands,
+    ['b']        = tb.buffers,
+
+    -- Terminal
+    ['t']        = cmd 'Ttoggle',
+
+    -- Harpoon
+    ['H']        = require('harpoon.mark').add_file,
+    ['h']        = require('harpoon.ui').toggle_quick_menu,
+    ['th']       = require('telescope').extensions.harpoon.marks,
+
+    -- Git
+    ['G']        = ex 'Git ',
     ['g']        = cmd 'Git',
-    ['ot']       = cmd 'Ttoggle',
-    ['oc']       = cmd 'vsplit $MYVIMRC',
+    ['ng']       = require('neogit').open,
+
+    -- Configuration
+    ['oc']       = cmd 'tabedit $MYVIMRC',
     ['ev']       = cmd 'source %',
+
+    -- Local quickfix list
     ['q']        = cmd 'lopen',
     ['j']        = cmd 'lnext',
     ['k']        = cmd 'lprev',
-    ['G']        = pr 'Git ',
-    ['s']        = pr '%s/',
+
+    -- Others
+    ['s']        = ex '%s/',
     ['w']        = '<C-w>',
+    ['p']        = '"+p',
 }
 
+-- Global quickfix list
 ed.bind('n', '<C-q>', cmd 'copen')
 ed.bind('n', '<C-j>', cmd 'copen')
 ed.bind('n', '<C-k>', cmd 'cprev')

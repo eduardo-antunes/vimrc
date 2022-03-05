@@ -62,11 +62,11 @@ end
 
 -- Convenience and readability:
 
-function this.vim_cmd(string)
+function this.cmd(string)
   return '<cmd>' .. string .. '<cr>'
 end
 
-function this.vim_prompt(string)
+function this.ex(string)
   return ':' .. string
 end
       

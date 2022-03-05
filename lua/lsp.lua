@@ -14,7 +14,7 @@ cmp.setup {
       i = cmp.mapping.abort(),
       c = cmp.mapping.close(),
     },
-    ['<cr>'] = cmp.mapping.confirm({ select = false }),
+    ['<cr>'] = cmp.mapping.confirm { select = false },
   },
   sources = cmp.config.sources {
     { name = 'nvim_lsp' },
