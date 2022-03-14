@@ -13,8 +13,17 @@ require('packer').startup(function ()
   -- eletric-pairs for neovim
   use 'windwp/nvim-autopairs'
 
+  -- gruvbox material theme
+  use 'sainnhe/gruvbox-material'
+
+  -- tokyonight theme
+  use 'folke/tokyonight.nvim'
+
   -- one dark theme
   use 'navarasu/onedark.nvim'
+
+  -- github colors theme
+  use 'projekt0n/github-nvim-theme'
 
   -- lualine
   use 'nvim-lualine/lualine.nvim'
@@ -22,19 +31,20 @@ require('packer').startup(function ()
   -- pretty icons
   use 'kyazdani42/nvim-web-devicons'
 
-  -- tpope
+  -- comment and uncomment fast
   use 'tpope/vim-commentary'
-  use 'tpope/vim-fugitive'
+
+  -- surround motions for convenience
   use 'tpope/vim-surround'
+
+  -- a git wrapper so awesome it should be illegal
+  use 'tpope/vim-fugitive'
 
   -- neogit for quick git operations
   use {
     'TimUntersberger/neogit',
     requires = 'nvim-lua/plenary.nvim',
   }
-
-  -- wrapper for the builtin terminal
-  use 'kassio/neoterm'
 
   -- harpoon > marks
   use 'ThePrimeagen/harpoon'
@@ -53,6 +63,9 @@ require('packer').startup(function ()
     'nvim-telescope/telescope-fzf-native.nvim', 
     run = 'make',
   }
+
+  -- improves upon telescopes's lsp integration
+  use 'gbrlsnchs/telescope-lsp-handlers.nvim'
 
   -- tree-sitter configuration
   use {
@@ -77,12 +90,10 @@ end)
 
 -- Plugin configuration:
 
-vim.g.neoterm_size = '10'
-vim.g.neoterm_default_mod = 'botright'
-
 require('nvim-autopairs').setup()
 
 local t = require 'telescope'
+t.load_extension 'lsp_handlers'
 t.load_extension 'file_browser'
 t.load_extension 'harpoon'
 t.load_extension 'fzf'

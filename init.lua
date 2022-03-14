@@ -7,9 +7,11 @@ local ed = require 'utils'
 
 -- Colorscheme and settings:
 
-ed.set_theme 'onedark'
+vim.g.gruvbox_material_palette = 'original'
 
-local undodir = vim.fn.stdpath('cache') .. '/undodir'
+ed.set_theme 'github_dark'
+
+local undodir = vim.fn.stdpath 'cache' .. '/undodir'
 
 ed.set_options {
     mouse          = 'a',
@@ -24,6 +26,7 @@ ed.set_options {
     errorbells     = false,
     wrap           = false,
     showcmd        = false,
+    showmode       = false,
     cursorline     = true,
     number         = true,
     relativenumber = true,
@@ -45,23 +48,28 @@ ed.set_options {
 ed.set_leader ' '
 ed.set_localleader ','
 
-local cmd, ex = ed.cmd, ed.ex
+local bind, cmd, ex = ed.bind, ed.cmd, ed.ex
 
-local tb = require 'telescope.builtin'
+local t = require 'telescope.builtin'
 local file_browser = require('telescope')
                         .extensions
                         .file_browser
                         .file_browser
 
+local function open_term()
+    require('harpoon.term').gotoTerminal(1)
+end
+
 ed.leader_map {
     -- Telescope
     ['<leader>'] = file_browser,
-    ['.']        = tb.find_files,
-    [':']        = tb.commands,
-    ['b']        = tb.buffers,
+    ['.']        = t.find_files,
+    [':']        = t.commands,
+    ['K']        = t.help_tags,
+    ['b']        = t.buffers,
 
     -- Terminal
-    ['t']        = cmd 'Ttoggle',
+    ['ot']        = open_term,
 
     -- Harpoon
     ['H']        = require('harpoon.mark').add_file,
@@ -69,9 +77,13 @@ ed.leader_map {
     ['th']       = require('telescope').extensions.harpoon.marks,
 
     -- Git
-    ['G']        = ex 'Git ',
-    ['g']        = cmd 'Git',
+    ['g']        = ex 'Git ',
     ['ng']       = require('neogit').open,
+
+    -- LSP
+    ['ca']       = vim.lsp.buf.code_action,
+    ['cd']       = vim.lsp.buf.definition,
+    ['cr']       = vim.lsp.buf.rename,
 
     -- Configuration
     ['oc']       = cmd 'tabedit $MYVIMRC',
@@ -83,13 +95,16 @@ ed.leader_map {
     ['k']        = cmd 'lprev',
 
     -- Others
-    ['s']        = ex '%s/',
     ['w']        = '<C-w>',
     ['p']        = '"+p',
+    ['s']        = ex '%s/',
 }
 
 -- Global quickfix list
-ed.bind('n', '<C-q>', cmd 'copen')
-ed.bind('n', '<C-j>', cmd 'copen')
-ed.bind('n', '<C-k>', cmd 'cprev')
+bind('n', '<C-q>', cmd 'copen')
+bind('n', '<C-j>', cmd 'cnext')
+bind('n', '<C-k>', cmd 'cprev')
 
+bind('n', 'gd', cmd 'lua vim.lsp.buf.definition')
+
+bind('t', '<esc>', '<C-\\><C-n>')
