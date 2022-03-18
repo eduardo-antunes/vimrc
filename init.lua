@@ -9,7 +9,7 @@ local ed = require 'utils'
 
 vim.g.gruvbox_material_palette = 'original'
 
-ed.set_theme 'github_dark'
+ed.set_theme 'gruvbox-material'
 
 local undodir = vim.fn.stdpath 'cache' .. '/undodir'
 
@@ -23,6 +23,7 @@ ed.set_options {
     shiftwidth     = 4,
     exrc           = true,
     hidden         = true,
+    title          = false,
     errorbells     = false,
     wrap           = false,
     showcmd        = false,
@@ -48,36 +49,33 @@ ed.set_options {
 ed.set_leader ' '
 ed.set_localleader ','
 
-local bind, cmd, ex = ed.bind, ed.cmd, ed.ex
+local exec, pr = ed.exec, ed.pr
 
-local t = require 'telescope.builtin'
-local file_browser = require('telescope')
-                        .extensions
-                        .file_browser
-                        .file_browser
-
-local function open_term()
-    require('harpoon.term').gotoTerminal(1)
-end
+local t  = require 'telescope.builtin'
+local tf = require 'telescope'.extensions.file_browser
 
 ed.leader_map {
     -- Telescope
-    ['<leader>'] = file_browser,
+    ['<leader>'] = tf.file_browser,
     ['.']        = t.find_files,
     [':']        = t.commands,
     ['K']        = t.help_tags,
     ['b']        = t.buffers,
 
     -- Terminal
-    ['ot']        = open_term,
+    ['ot']        = function() require('harpoon.term').gotoTerminal(1) end,
 
     -- Harpoon
     ['H']        = require('harpoon.mark').add_file,
     ['h']        = require('harpoon.ui').toggle_quick_menu,
     ['th']       = require('telescope').extensions.harpoon.marks,
+    ['1']        = function() require('harpoon.ui').nav_file(1) end,
+    ['2']        = function() require('harpoon.ui').nav_file(2) end,
 
     -- Git
-    ['g']        = ex 'Git ',
+    ['g']        = pr   'Git ',
+    ['G']        = exec 'Git ',
+    ['lg']       = exec 'Gclog',
     ['ng']       = require('neogit').open,
 
     -- LSP
@@ -86,25 +84,25 @@ ed.leader_map {
     ['cr']       = vim.lsp.buf.rename,
 
     -- Configuration
-    ['oc']       = cmd 'tabedit $MYVIMRC',
-    ['ev']       = cmd 'source %',
+    ['oc']       = exec 'tabedit $MYVIMRC',
+    ['ev']       = exec 'source %',
 
     -- Local quickfix list
-    ['q']        = cmd 'lopen',
-    ['j']        = cmd 'lnext',
-    ['k']        = cmd 'lprev',
+    ['q']        = exec 'lopen',
+    ['j']        = exec 'lnext',
+    ['k']        = exec 'lprev',
 
     -- Others
     ['w']        = '<C-w>',
     ['p']        = '"+p',
-    ['s']        = ex '%s/',
+    ['s']        = pr '%s/',
 }
 
--- Global quickfix list
-bind('n', '<C-q>', cmd 'copen')
-bind('n', '<C-j>', cmd 'cnext')
-bind('n', '<C-k>', cmd 'cprev')
+ed.normal_map {
+    ['gd']    = vim.lsp.buf.definition,
+    ['<C-q>'] = exec 'copen',
+    ['<C-j>'] = exec 'cnext',
+    ['<C-k>'] = exec 'cprev',
+}
 
-bind('n', 'gd', cmd 'lua vim.lsp.buf.definition')
-
-bind('t', '<esc>', '<C-\\><C-n>')
+ed.bind('t', '<esc>', '<C-\\><C-n>')

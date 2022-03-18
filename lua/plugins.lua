@@ -16,9 +16,6 @@ require('packer').startup(function ()
   -- gruvbox material theme
   use 'sainnhe/gruvbox-material'
 
-  -- tokyonight theme
-  use 'folke/tokyonight.nvim'
-
   -- one dark theme
   use 'navarasu/onedark.nvim'
 
@@ -101,5 +98,4 @@ t.load_extension 'fzf'
 require('nvim-treesitter.configs').setup {
   ensure_installed = 'maintained',
   highlight = { enable = true },
-  indent    = { enable = true },
 }
