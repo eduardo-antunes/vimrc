@@ -19,9 +19,6 @@ require('packer').startup(function ()
   -- one dark theme
   use 'navarasu/onedark.nvim'
 
-  -- github colors theme
-  use 'projekt0n/github-nvim-theme'
-
   -- lualine
   use 'nvim-lualine/lualine.nvim'
 
@@ -72,6 +69,9 @@ require('packer').startup(function ()
 
   -- lsp configuration
   use 'neovim/nvim-lspconfig'
+
+  -- debugging stuff
+  use 'sakhnik/nvim-gdb'
 
   -- autocomplete system
   use 'hrsh7th/nvim-cmp'

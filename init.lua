@@ -60,6 +60,7 @@ ed.leader_map {
     ['.']        = t.find_files,
     [':']        = t.commands,
     ['K']        = t.help_tags,
+    ['M']        = t.man_pages,
     ['b']        = t.buffers,
 
     -- Terminal
@@ -71,6 +72,8 @@ ed.leader_map {
     ['th']       = require('telescope').extensions.harpoon.marks,
     ['1']        = function() require('harpoon.ui').nav_file(1) end,
     ['2']        = function() require('harpoon.ui').nav_file(2) end,
+    ['3']        = function() require('harpoon.ui').nav_file(3) end,
+    ['4']        = function() require('harpoon.ui').nav_file(4) end,
 
     -- Git
     ['g']        = pr   'Git ',
