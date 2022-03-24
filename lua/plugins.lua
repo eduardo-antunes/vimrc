@@ -83,6 +83,13 @@ require('packer').startup(function ()
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
 
+  -- snippet engine
+  use 'L3MON4D3/LuaSnip'
+  use 'saadparwaiz1/cmp_luasnip'
+
+  -- collection of pre-made snippets
+  use 'rafamadriz/friendly-snippets'
+
 end)
 
 -- Plugin configuration:
@@ -99,3 +106,5 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = 'maintained',
   highlight = { enable = true },
 }
+
+require('luasnip.loaders.from_vscode').lazy_load()

@@ -9,7 +9,7 @@ local ed = require 'utils'
 
 vim.g.gruvbox_material_palette = 'original'
 
-ed.set_theme 'gruvbox-material'
+ed.set_theme 'onedark'
 
 local undodir = vim.fn.stdpath 'cache' .. '/undodir'
 
@@ -109,3 +109,4 @@ ed.normal_map {
 }
 
 ed.bind('t', '<esc>', '<C-\\><C-n>')
+ed.bind('i', '<tab>', function() require('luasnip').jump(1) end)
