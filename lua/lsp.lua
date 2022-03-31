@@ -1,4 +1,4 @@
--- Autocompletion + lsp setup:
+-- Autocomplete + lsp setup:
 
 local cmp = require 'cmp'
 

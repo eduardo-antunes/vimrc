@@ -1,6 +1,6 @@
 vim.cmd 'packadd packer.nvim'
 
--- Plugin declarations:
+-- Plugin declaration:
 
 require('packer').startup(function ()
 
@@ -12,9 +12,6 @@ require('packer').startup(function ()
 
   -- eletric-pairs for neovim
   use 'windwp/nvim-autopairs'
-
-  -- gruvbox material theme
-  use 'sainnhe/gruvbox-material'
 
   -- one dark theme
   use 'navarasu/onedark.nvim'
@@ -30,6 +27,9 @@ require('packer').startup(function ()
 
   -- surround motions for convenience
   use 'tpope/vim-surround'
+
+  -- git integration for buffers
+  use 'lewis6991/gitsigns.nvim'
 
   -- a git wrapper so awesome it should be illegal
   use 'tpope/vim-fugitive'
@@ -50,16 +50,23 @@ require('packer').startup(function ()
   }
 
   -- file browser built on telescope
-  use 'nvim-telescope/telescope-file-browser.nvim'
+  use {
+    'nvim-telescope/telescope-file-browser.nvim',
+    requires = 'nvim-telescope/telescope.nvim',
+  }
 
   -- grants telescope the gift of native speed
   use { 
     'nvim-telescope/telescope-fzf-native.nvim', 
+    requires = 'nvim-telescope/telescope.nvim',
     run = 'make',
   }
 
   -- improves upon telescopes's lsp integration
-  use 'gbrlsnchs/telescope-lsp-handlers.nvim'
+  use {
+    'gbrlsnchs/telescope-lsp-handlers.nvim',
+    requires = 'nvim-telescope/telescope.nvim',
+  }
 
   -- tree-sitter configuration
   use {
@@ -85,6 +92,8 @@ require('packer').startup(function ()
 
   -- snippet engine
   use 'L3MON4D3/LuaSnip'
+
+  -- snippets meet autocomplete
   use 'saadparwaiz1/cmp_luasnip'
 
   -- collection of pre-made snippets
@@ -95,12 +104,12 @@ end)
 -- Plugin configuration:
 
 require('nvim-autopairs').setup()
+require('gitsigns').setup()
 
 local t = require 'telescope'
-t.load_extension 'lsp_handlers'
-t.load_extension 'file_browser'
-t.load_extension 'harpoon'
-t.load_extension 'fzf'
+t.load_extension  'file_browser'
+t.load_extension  'fzf'
+t.load_extension  'lsp_handlers'
 
 require('nvim-treesitter.configs').setup {
   ensure_installed = 'maintained',

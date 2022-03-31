@@ -7,8 +7,6 @@ local ed = require 'utils'
 
 -- Colorscheme and settings:
 
-vim.g.gruvbox_material_palette = 'original'
-
 ed.set_theme 'onedark'
 
 local undodir = vim.fn.stdpath 'cache' .. '/undodir'
@@ -63,17 +61,14 @@ ed.leader_map {
     ['M']        = t.man_pages,
     ['b']        = t.buffers,
 
-    -- Terminal
-    ['ot']        = function() require('harpoon.term').gotoTerminal(1) end,
-
     -- Harpoon
     ['H']        = require('harpoon.mark').add_file,
     ['h']        = require('harpoon.ui').toggle_quick_menu,
-    ['th']       = require('telescope').extensions.harpoon.marks,
     ['1']        = function() require('harpoon.ui').nav_file(1) end,
     ['2']        = function() require('harpoon.ui').nav_file(2) end,
     ['3']        = function() require('harpoon.ui').nav_file(3) end,
     ['4']        = function() require('harpoon.ui').nav_file(4) end,
+    ['t']        = function() require('harpoon.term').gotoTerminal(1) end,
 
     -- Git
     ['g']        = pr   'Git ',
@@ -110,3 +105,12 @@ ed.normal_map {
 
 ed.bind('t', '<esc>', '<C-\\><C-n>')
 ed.bind('i', '<tab>', function() require('luasnip').jump(1) end)
+
+-- Autocommands
+
+vim.cmd [[
+    augroup terminal
+    autocmd!
+    autocmd TermOpen * setlocal nonumber norelativenumber
+    augroup END
+]]
