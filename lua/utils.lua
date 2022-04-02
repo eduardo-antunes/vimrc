@@ -1,6 +1,6 @@
 local this = {}
 
--- Option setting:
+-- Setting options:
 
 function this.set_options(options)
   for option, value in pairs(options) do
@@ -8,19 +8,11 @@ function this.set_options(options)
   end
 end
 
--- Visual configuring:
+-- Visuals:
 
 function this.set_theme(theme)
   vim.opt.termguicolors = true
   vim.cmd('colors ' .. theme)
-  require('lualine').setup {
-    options = {
-      theme = theme,
-    },
-    sections = {
-      lualine_x = {'filetype'},
-    },
-  }
 end
 
 -- Key binding:

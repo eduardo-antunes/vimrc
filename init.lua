@@ -9,6 +9,8 @@ local ed = require 'utils'
 
 ed.set_theme 'onedark'
 
+require('statusline').setup()
+
 local undodir = vim.fn.stdpath 'cache' .. '/undodir'
 
 ed.set_options {

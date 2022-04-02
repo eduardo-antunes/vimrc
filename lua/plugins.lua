@@ -16,9 +16,6 @@ require('packer').startup(function ()
   -- one dark theme
   use 'navarasu/onedark.nvim'
 
-  -- lualine
-  use 'nvim-lualine/lualine.nvim'
-
   -- pretty icons
   use 'kyazdani42/nvim-web-devicons'
 
@@ -108,8 +105,8 @@ require('gitsigns').setup()
 
 local t = require 'telescope'
 t.load_extension  'file_browser'
-t.load_extension  'fzf'
 t.load_extension  'lsp_handlers'
+t.load_extension  'fzf'
 
 require('nvim-treesitter.configs').setup {
   ensure_installed = 'maintained',
