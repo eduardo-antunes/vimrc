@@ -113,9 +113,15 @@ ed.bind('i', '<tab>', function() require('luasnip').jump(1) end)
 
 -- Autocommands
 
-vim.cmd [[
-    augroup terminal
-    autocmd!
-    autocmd TermOpen * setlocal nonumber norelativenumber
-    augroup END
-]]
+local term = vim.api.nvim_create_augroup('Terminal', { clear = true })
+vim.api.nvim_create_autocmd('TermOpen', {
+        group = term,
+        command = 'setlocal nonumber norelativenumber',
+    })
+
+local asm = vim.api.nvim_create_augroup('Assembly', { clear = true })
+vim.api.nvim_create_autocmd('BufEnter', {
+        group = asm,
+        pattern = '*.asm',
+        command = 'set ft=nasm',
+    })

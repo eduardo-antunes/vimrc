@@ -4,8 +4,6 @@
 
 local this = {}
 
-local fn  = vim.fn
-local api = vim.api
 local fmt = string.format
 
 -- Tables for later
@@ -72,8 +70,8 @@ local function filetype()
 end
 
 local function mode()
-  local current_mode = api.nvim_get_mode().mode
-  return fmt(' %s | ', mode_sym[current_mode])
+  local current_mode = vim.api.nvim_get_mode().mode
+  return fmt(' %s |', mode_sym[current_mode])
 end
 
 local function position()
@@ -94,8 +92,8 @@ local function file_status()
 end
 
 local function filepath()
-  local dir = fn.fnamemodify(fn.expand '%', ':~:.:h')
-  local name = fn.expand '%:t'
+  local dir = vim.fn.fnamemodify(vim.fn.expand '%', ':~:.:h')
+  local name = vim.fn.expand '%:t'
 
   if dir == '.' then
     return fmt(' %s', name)
@@ -130,6 +128,7 @@ local function git()
                      removed == ''    )
 
   return table.concat {
+    ' ',
     added,
     changed,
     removed,
@@ -190,20 +189,21 @@ function this.active()
 end
 
 function this.inactive()
-  return table.concat {
-    filepath(),
-    file_status(),
-  }
+  return ' %F'
 end
 
 function this.setup()
-  vim.cmd [[
-    augroup Statusline
-    au!
-    au WinEnter,BufEnter * setlocal statusline=%!v:lua.require'statusline'.active()
-    au WinLeave,BufLeave * setlocal statusline=%!v:lua.require'statusline'.inactive()
-    augroup END
-  ]]
+  local augroup = vim.api.nvim_create_augroup('StatusLine', { clear = true })
+
+  vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, {
+      group = augroup,
+      command = "setlocal statusline=%!v:lua.require'statusline'.active()",
+    })
+
+  vim.api.nvim_create_autocmd({ 'WinLeave', 'BufLeave' }, {
+      group = augroup,
+      command = "setlocal statusline=%!v:lua.require('statusline').inactive()",
+    })
 end
 
 return this
