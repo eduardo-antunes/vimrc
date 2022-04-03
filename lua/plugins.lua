@@ -13,8 +13,17 @@ require('packer').startup(function ()
   -- eletric-pairs for neovim
   use 'windwp/nvim-autopairs'
 
-  -- one dark theme
+  -- one dark colorscheme
   use 'navarasu/onedark.nvim'
+
+  -- modus themes for neovim
+  use 'ishan9299/modus-theme-vim'
+
+  -- gruvbox material colorscheme
+  use 'sainnhe/gruvbox-material'
+
+  -- solarized colorscheme
+  use 'ishan9299/nvim-solarized-lua'
 
   -- pretty icons
   use 'kyazdani42/nvim-web-devicons'

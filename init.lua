@@ -7,7 +7,10 @@ local ed = require 'utils'
 
 -- Colorscheme and settings:
 
-ed.set_theme 'onedark'
+vim.g.gruvbox_material_palette = 'mix'
+vim.g.gruvbox_material_statusline_style = 'original'
+
+ed.set_colors 'onedark'
 
 require('statusline').setup()
 

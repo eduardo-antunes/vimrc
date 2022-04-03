@@ -10,30 +10,36 @@ local fmt = string.format
 
 -- Tables for later
 
-local mode_symbol = {
-  ["n"]  = "NORMAL",
-  ["no"] = "NORMAL",
-  ["v"]  = "VISUAL",
-  ["V"]  = "V-LINE",
-  [""] = "V-BLOCK",
-  ["s"]  = "SELECT",
-  ["S"]  = "S-LINE",
-  [""] = "S-BLOCK",
-  ["i"]  = "INSERT",
-  ["ic"] = "INSERT",
-  ["R"]  = "REPLACE",
-  ["Rv"] = "V-REPLACE",
-  ["c"]  = "COMMAND",
-  ["cv"] = "VIM EX",
-  ["ce"] = "EX",
-  ["r"]  = "PROMPT",
-  ["rm"] = "MOAR",
-  ["r?"] = "CONFIRM",
-  ["!"]  = "SHELL",
-  ["t"]  = "TERMINAL",
+local mode_sym = {
+  ['n']  = 'N',
+  ['no'] = 'N',
+  ['v']  = 'V',
+  ['V']  = 'Vl',
+  [''] = 'Vb',
+  ['s']  = 'S',
+  ['S']  = 'Sl',
+  [''] = 'Sb',
+  ['i']  = 'I',
+  ['ic'] = 'I',
+  ['R']  = 'R',
+  ['Rv'] = 'Rv',
+  ['c']  = ':',
+  ['cv'] = 'VIM EX',
+  ['ce'] = 'EX',
+  ['r']  = 'PROMPT',
+  ['rm'] = 'MORE',
+  ['r?'] = 'CONFIRM',
+  ['!']  = 'SHELL',
+  ['t']  = 'T',
 }
 
-local lsp_symbol = {
+setmetatable(mode_sym, {
+    __index = function ()
+      return '?'
+    end
+  })
+
+local lsp_sym = {
   errors   = '  ',
   warnings = '  ',
   hints    = '  ',
@@ -50,18 +56,16 @@ local lsp_symbol = {
 -- mode: shows the current mode
 -- git: shows git information
 -- filepath: shows the filepath
--- file_status: shows the "modifiedness"
+-- file_status: shows the buffer's status
 -- lsp: shows lsp information
 -- filetype: shows the filetype
 -- position: self-explanatory
-
--- There's also a spacing "module" for spacing.
 
 -- The order in which their definitions is presented is of 
 -- increasing complexity. The simpler the module, the closer
 -- to the top.
 
-local spacing = '%=%#StatusLineExtra#'
+local spacer = '%=%#StatusLineExtra#'
 
 local function filetype()
   return fmt(' %s ', vim.bo.filetype:upper())
@@ -69,7 +73,7 @@ end
 
 local function mode()
   local current_mode = api.nvim_get_mode().mode
-  return fmt(' %s ', mode_symbol[current_mode])
+  return fmt(' %s | ', mode_sym[current_mode])
 end
 
 local function position()
@@ -113,7 +117,7 @@ local function git()
     return ''
   end
 
-  local added   = info.added   and fmt(' +%s ', info.added)   or ''
+  local added   = info.added   and fmt('+%s ',  info.added)   or ''
   local changed = info.changed and fmt('~%s ' , info.changed) or ''
   local removed = info.removed and fmt('-%s ' , info.removed) or ''
 
@@ -121,11 +125,16 @@ local function git()
   if info.changed == 0 then changed = '' end
   if info.removed == 0 then removed = '' end
 
+  local dirty = not (added   == '' and
+                     changed == '' and
+                     removed == ''    )
+
   return table.concat {
     added,
     changed,
     removed,
-    '  ',
+    dirty and ' ' or '',
+    ' ',
     info.head,
     ' |'
   }
@@ -174,7 +183,7 @@ function this.active()
     filepath(),
     file_status(),
     lsp(),
-    spacing,
+    spacer,
     filetype(),
     position(),
   }

@@ -10,9 +10,9 @@ end
 
 -- Visuals:
 
-function this.set_theme(theme)
+function this.set_colors(scheme)
   vim.opt.termguicolors = true
-  vim.cmd('colors ' .. theme)
+  vim.cmd('colors ' .. scheme)
 end
 
 -- Key binding:
