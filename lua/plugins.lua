@@ -4,90 +4,70 @@ vim.cmd 'packadd packer.nvim'
 
 require('packer').startup(function ()
 
-  -- packer can take care of itself
+  -- META --
+
   use 'wbthomason/packer.nvim'
 
-  -- vim polyglot for better language support
-  use 'sheerun/vim-polyglot'
+  -- GENERAL--
 
-  -- eletric-pairs for neovim
-  use 'windwp/nvim-autopairs'
+  use 'windwp/nvim-autopairs' -- electric pairs for neovim
 
-  -- one dark colorscheme
-  use 'navarasu/onedark.nvim'
+  use 'tpope/vim-surround' -- cool surround motions
 
-  -- modus themes for neovim
-  use 'ishan9299/modus-theme-vim'
+  use 'tpope/vim-eunuch' -- simple, but effective file management
 
-  -- gruvbox material colorscheme
-  use 'sainnhe/gruvbox-material'
+  use 'ThePrimeagen/harpoon' -- fast file switching
 
-  -- solarized colorscheme
-  use 'ishan9299/nvim-solarized-lua'
-
-  -- pretty icons
-  use 'kyazdani42/nvim-web-devicons'
-
-  -- comment and uncomment fast
-  use 'tpope/vim-commentary'
-
-  -- surround motions for convenience
-  use 'tpope/vim-surround'
-
-  -- git integration for buffers
-  use 'lewis6991/gitsigns.nvim'
-
-  -- a git wrapper so awesome it should be illegal
-  use 'tpope/vim-fugitive'
-
-  -- neogit for quick git operations
-  use {
-    'TimUntersberger/neogit',
-    requires = 'nvim-lua/plenary.nvim',
-  }
-
-  -- harpoon > marks
-  use 'ThePrimeagen/harpoon'
-
-  -- telescope for fuzzy finding
+  -- fuzzy finding
   use { 
     'nvim-telescope/telescope.nvim',
     requires = 'nvim-lua/plenary.nvim',
   }
 
-  -- file browser built on telescope
-  use {
-    'nvim-telescope/telescope-file-browser.nvim',
-    requires = 'nvim-telescope/telescope.nvim',
-  }
-
-  -- grants telescope the gift of native speed
+  -- fuzzy finding meets native speed
   use { 
     'nvim-telescope/telescope-fzf-native.nvim', 
     requires = 'nvim-telescope/telescope.nvim',
     run = 'make',
   }
 
-  -- improves upon telescopes's lsp integration
+  -- VISUALS --
+
+  use 'navarasu/onedark.nvim' -- onedark colorscheme
+
+  use 'ishan9299/modus-theme-vim' -- modus themes for neovim
+
+  use 'sainnhe/gruvbox-material' -- gruvbox material colorscheme
+
+  use 'ishan9299/nvim-solarized-lua' -- solarized colorscheme
+
+  -- GIT --
+
+  use 'lewis6991/gitsigns.nvim' -- git integration for buffers
+
+  use 'tpope/vim-fugitive' -- simple, but effective git
+
+  -- magit for neovim
   use {
-    'gbrlsnchs/telescope-lsp-handlers.nvim',
-    requires = 'nvim-telescope/telescope.nvim',
+    'TimUntersberger/neogit',
+    requires = 'nvim-lua/plenary.nvim',
   }
 
-  -- tree-sitter configuration
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
-  }
+  -- LANGUAGE SUPPORT --
 
-  -- lsp configuration
-  use 'neovim/nvim-lspconfig'
+  use 'sheerun/vim-polyglot' -- better language support
 
-  -- debugging stuff
-  use 'sakhnik/nvim-gdb'
+  use 'tpope/vim-commentary' -- comment and uncomment fast
 
-  -- autocomplete system
-  use 'hrsh7th/nvim-cmp'
+  use 'neovim/nvim-lspconfig' -- configure neovim's native lsp easily
+
+  use 'sakhnik/nvim-gdb' -- debugger integration
+
+  use 'hrsh7th/nvim-cmp' -- autocomplete system
+
+  use 'L3MON4D3/LuaSnip' -- snippet system
+
+  use 'saadparwaiz1/cmp_luasnip' -- snippets meet autcompletion
 
   -- autocomplete sources
   use 'hrsh7th/cmp-nvim-lsp'
@@ -96,14 +76,19 @@ require('packer').startup(function ()
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
 
-  -- snippet engine
-  use 'L3MON4D3/LuaSnip'
+  use 'rafamadriz/friendly-snippets' -- snippet source
 
-  -- snippets meet autocomplete
-  use 'saadparwaiz1/cmp_luasnip'
+  -- fuzzy finder + lsp integration
+  use {
+    'gbrlsnchs/telescope-lsp-handlers.nvim',
+    requires = 'nvim-telescope/telescope.nvim',
+  }
 
-  -- collection of pre-made snippets
-  use 'rafamadriz/friendly-snippets'
+  -- crispier syntax highlighting
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate',
+  }
 
 end)
 
@@ -113,7 +98,6 @@ require('nvim-autopairs').setup()
 require('gitsigns').setup()
 
 local t = require 'telescope'
-t.load_extension  'file_browser'
 t.load_extension  'lsp_handlers'
 t.load_extension  'fzf'
 

@@ -36,7 +36,7 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(defaults)
 
 local lspconf = require 'lspconfig'
 
-local my_servers = { 'clangd', 'pyright' }
+local my_servers = { 'clangd', 'rust_analyzer', 'pyright' }
 
 for _, server in pairs(my_servers) do
   lspconf[server].setup {

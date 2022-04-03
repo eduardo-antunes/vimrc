@@ -33,7 +33,7 @@ local mode_sym = {
 
 setmetatable(mode_sym, {
     __index = function ()
-      return '?'
+      return 'N'
     end
   })
 
@@ -202,8 +202,9 @@ function this.setup()
 
   vim.api.nvim_create_autocmd({ 'WinLeave', 'BufLeave' }, {
       group = augroup,
-      command = "setlocal statusline=%!v:lua.require('statusline').inactive()",
+      command = "setlocal statusline=%!v:lua.require'statusline'.inactive()",
     })
+
 end
 
 return this

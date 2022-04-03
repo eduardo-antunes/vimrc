@@ -62,6 +62,10 @@ function this.leader_map(bindings)
   this.map('n', bindings, '<leader>')
 end
 
+function this.localleader_map(bindings)
+  this.map('n', bindings, '<localleader>')
+end
+
 function this.exec(string)
   return '<cmd>' .. string .. '<cr>'
 end

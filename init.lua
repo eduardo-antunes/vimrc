@@ -54,51 +54,56 @@ ed.set_localleader ','
 
 local exec, pr = ed.exec, ed.pr
 
-local t  = require 'telescope.builtin'
-local tf = require 'telescope'.extensions.file_browser
+local t = require 'telescope.builtin'
 
 ed.leader_map {
-    -- Telescope
-    ['<leader>'] = tf.file_browser,
-    ['.']        = t.find_files,
-    [':']        = t.commands,
-    ['K']        = t.help_tags,
-    ['M']        = t.man_pages,
-    ['b']        = t.buffers,
 
-    -- Harpoon
-    ['H']        = require('harpoon.mark').add_file,
-    ['h']        = require('harpoon.ui').toggle_quick_menu,
-    ['1']        = function() require('harpoon.ui').nav_file(1) end,
-    ['2']        = function() require('harpoon.ui').nav_file(2) end,
-    ['3']        = function() require('harpoon.ui').nav_file(3) end,
-    ['4']        = function() require('harpoon.ui').nav_file(4) end,
-    ['t']        = function() require('harpoon.term').gotoTerminal(1) end,
+    -- EUNUCH --
+    ['ff'] = pr 'Move ',
+    ['fr'] = pr 'Rename ',
+    ['fD'] = pr 'Mkdir!',
+    ['fd'] = exec 'Mkdir!',
 
-    -- Git
-    ['g']        = pr   'Git ',
-    ['G']        = exec 'Git ',
-    ['lg']       = exec 'Gclog',
-    ['ng']       = require('neogit').open,
+    -- TELESCOPE --
+    ['.']  = t.find_files,
+    [':']  = t.commands,
+    ['K']  = t.help_tags,
+    ['M']  = t.man_pages,
+    ['C']  = t.colorschemes,
+    ['b']  = t.buffers,
 
-    -- LSP
-    ['ca']       = vim.lsp.buf.code_action,
-    ['cd']       = vim.lsp.buf.definition,
-    ['cr']       = vim.lsp.buf.rename,
+    -- HARPOON --
+    ['H']  = require('harpoon.mark').add_file,
+    ['h']  = require('harpoon.ui').toggle_quick_menu,
+    ['1']  = function() require('harpoon.ui').nav_file(1) end,
+    ['2']  = function() require('harpoon.ui').nav_file(2) end,
+    ['3']  = function() require('harpoon.ui').nav_file(3) end,
+    ['4']  = function() require('harpoon.ui').nav_file(4) end,
+    ['T']  = function() require('harpoon.term').gotoTerminal(1) end,
 
-    -- Configuration
-    ['oc']       = exec 'tabedit $MYVIMRC',
-    ['ev']       = exec 'source %',
+    -- GIT --
+    ['g']  = pr   'Git ',
+    ['G']  = exec 'Gclog',
+    ['ng'] = require('neogit').open,
 
-    -- Local quickfix list
-    ['q']        = exec 'lopen',
-    ['j']        = exec 'lnext',
-    ['k']        = exec 'lprev',
+    -- LSP --
+    ['ca'] = vim.lsp.buf.code_action,
+    ['cd'] = vim.lsp.buf.definition,
+    ['cr'] = vim.lsp.buf.rename,
 
-    -- Others
-    ['w']        = '<C-w>',
-    ['p']        = '"+p',
-    ['s']        = pr '%s/',
+    -- VIM --
+    ['oc'] = exec 'tabedit $MYVIMRC',
+    ['ev'] = exec 'source %',
+
+    -- LOCAL QUICKFIX --
+    ['q']  = exec 'lopen',
+    ['j']  = exec 'lnext',
+    ['k']  = exec 'lprev',
+
+    -- OTHERS --
+    ['w']  = '<C-w>',
+    ['p']  = '"+p',
+    ['s']  = pr '%s/',
 }
 
 ed.normal_map {
@@ -124,4 +129,16 @@ vim.api.nvim_create_autocmd('BufEnter', {
         group = asm,
         pattern = '*.asm',
         command = 'set ft=nasm',
+    })
+
+local rust = vim.api.nvim_create_augroup('Rust', { clear = true})
+vim.api.nvim_create_autocmd('FileType', {
+        group = rust,
+        pattern = 'rust',
+        callback = function ()
+            ed.localleader_map {
+                ['r'] = exec 'term cargo run',
+                ['b'] = exec 'term cargo build',
+            }
+        end,
     })
