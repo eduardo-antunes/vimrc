@@ -66,12 +66,16 @@ function this.localleader_map(bindings)
   this.map('n', bindings, '<localleader>')
 end
 
-function this.exec(string)
-  return '<cmd>' .. string .. '<cr>'
+function this.exec(str)
+  return string.format('<cmd>%s<cr>', str)
 end
 
-function this.pr(string)
-  return ':' .. string
+function this.term(str)
+  return string.format('<cmd>term %s<cr>', str)
+end
+
+function this.pr(str)
+  return string.format(':%s', str)
 end
       
 return this

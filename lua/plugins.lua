@@ -4,11 +4,11 @@ vim.cmd 'packadd packer.nvim'
 
 require('packer').startup(function ()
 
-  -- META --
+  -- Meta:
 
   use 'wbthomason/packer.nvim'
 
-  -- GENERAL--
+  -- General:
 
   use 'windwp/nvim-autopairs' -- electric pairs for neovim
 
@@ -31,17 +31,17 @@ require('packer').startup(function ()
     run = 'make',
   }
 
-  -- VISUALS --
+  -- Colorschemes:
 
-  use 'navarasu/onedark.nvim' -- onedark colorscheme
+  use 'navarasu/onedark.nvim'
 
-  use 'ishan9299/modus-theme-vim' -- modus themes for neovim
+  use 'tanvirtin/monokai.nvim'
 
-  use 'sainnhe/gruvbox-material' -- gruvbox material colorscheme
+  use 'sainnhe/gruvbox-material'
 
-  use 'ishan9299/nvim-solarized-lua' -- solarized colorscheme
+  use 'projekt0n/github-nvim-theme'
 
-  -- GIT --
+  -- Git:
 
   use 'lewis6991/gitsigns.nvim' -- git integration for buffers
 
@@ -53,7 +53,7 @@ require('packer').startup(function ()
     requires = 'nvim-lua/plenary.nvim',
   }
 
-  -- LANGUAGE SUPPORT --
+  -- Programming support:
 
   use 'sheerun/vim-polyglot' -- better language support
 

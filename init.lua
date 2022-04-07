@@ -7,8 +7,8 @@ local ed = require 'utils'
 
 -- Colorscheme and settings:
 
-vim.g.gruvbox_material_palette = 'mix'
 vim.g.gruvbox_material_statusline_style = 'original'
+vim.g.github_hide_inactive_statusline = false
 
 ed.set_colors 'onedark'
 
@@ -52,27 +52,27 @@ ed.set_options {
 ed.set_leader ' '
 ed.set_localleader ','
 
-local exec, pr = ed.exec, ed.pr
+local exec, term, pr = ed.exec, ed.term, ed.pr
 
 local t = require 'telescope.builtin'
 
 ed.leader_map {
 
-    -- EUNUCH --
+    -- General:
+    ['e']  = pr 'e %:h/',
+    ['r']  = pr 'Rename ',
     ['ff'] = pr 'Move ',
-    ['fr'] = pr 'Rename ',
-    ['fD'] = pr 'Mkdir!',
-    ['fd'] = exec 'Mkdir!',
+    ['fd'] = pr 'Mkdir ',
 
-    -- TELESCOPE --
+    -- Telescope:
     ['.']  = t.find_files,
     [':']  = t.commands,
+    ['-']  = t.colorscheme,
     ['K']  = t.help_tags,
     ['M']  = t.man_pages,
-    ['C']  = t.colorschemes,
     ['b']  = t.buffers,
 
-    -- HARPOON --
+    -- Harpoon:
     ['H']  = require('harpoon.mark').add_file,
     ['h']  = require('harpoon.ui').toggle_quick_menu,
     ['1']  = function() require('harpoon.ui').nav_file(1) end,
@@ -80,27 +80,29 @@ ed.leader_map {
     ['3']  = function() require('harpoon.ui').nav_file(3) end,
     ['4']  = function() require('harpoon.ui').nav_file(4) end,
     ['T']  = function() require('harpoon.term').gotoTerminal(1) end,
+    ['t']  = pr 'term ',
 
-    -- GIT --
+    -- Git:
     ['g']  = pr   'Git ',
     ['G']  = exec 'Gclog',
     ['ng'] = require('neogit').open,
 
-    -- LSP --
+    -- Lsp:
+    ['cc']  = vim.diagnostic.open_float,
     ['ca'] = vim.lsp.buf.code_action,
     ['cd'] = vim.lsp.buf.definition,
     ['cr'] = vim.lsp.buf.rename,
 
-    -- VIM --
+    -- Configuration:
     ['oc'] = exec 'tabedit $MYVIMRC',
-    ['ev'] = exec 'source %',
+    ['x']  = exec 'source %',
 
-    -- LOCAL QUICKFIX --
+    -- Local quickfix:
     ['q']  = exec 'lopen',
     ['j']  = exec 'lnext',
     ['k']  = exec 'lprev',
 
-    -- OTHERS --
+    -- Others:
     ['w']  = '<C-w>',
     ['p']  = '"+p',
     ['s']  = pr '%s/',
@@ -118,9 +120,16 @@ ed.bind('i', '<tab>', function() require('luasnip').jump(1) end)
 
 -- Autocommands
 
-local term = vim.api.nvim_create_augroup('Terminal', { clear = true })
+local text = vim.api.nvim_create_augroup('Text', { clear = true })
+vim.api.nvim_create_autocmd('BufEnter', {
+        group = text,
+        pattern = '*.txt',
+        command = 'set ft=text',
+    })
+
+local terminal = vim.api.nvim_create_augroup('Terminal', { clear = true })
 vim.api.nvim_create_autocmd('TermOpen', {
-        group = term,
+        group = terminal,
         command = 'setlocal nonumber norelativenumber',
     })
 
@@ -131,14 +140,17 @@ vim.api.nvim_create_autocmd('BufEnter', {
         command = 'set ft=nasm',
     })
 
-local rust = vim.api.nvim_create_augroup('Rust', { clear = true})
+local rust = vim.api.nvim_create_augroup('Rust', { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
         group = rust,
         pattern = 'rust',
         callback = function ()
             ed.localleader_map {
-                ['r'] = exec 'term cargo run',
-                ['b'] = exec 'term cargo build',
+                ['r'] = pr 'term cargo run ',
+                ['c'] = term 'cargo check',
+                ['b'] = term 'cargo build',
+                ['d'] = term 'cargo doc --open',
+                ['t'] = term 'cargo test',
             }
         end,
     })

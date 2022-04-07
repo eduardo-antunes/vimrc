@@ -38,10 +38,10 @@ setmetatable(mode_sym, {
   })
 
 local lsp_sym = {
-  errors   = '  ',
-  warnings = '  ',
-  hints    = '  ',
-  info     = '  ',
+  errors   = ' E',
+  warnings = ' W',
+  hints    = ' H',
+  info     = ' I',
 }
 
 -- The statusline can be thought of as being composed of a
@@ -133,7 +133,7 @@ local function git()
     changed,
     removed,
     dirty and ' ' or '',
-    ' ',
+    'Git:',
     info.head,
     ' |'
   }
