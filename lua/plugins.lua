@@ -1,3 +1,9 @@
+-- I dedicate any and all copyright interest in this software to the
+-- public domain. I make this dedication for the benefit of the public at
+-- large and to the detriment of my heirs and successors. I intend this
+-- dedication to be an overt act of relinquishment in perpetuity of all
+-- present and future rights to this software under copyright law.
+
 local bootstrap = require('utils').packer_bootstrap()
 
 return require('packer').startup(function()
@@ -68,7 +74,7 @@ return require('packer').startup(function()
 
   use 'sheerun/vim-polyglot' -- better language support
 
-  use 'tpope/vim-commentary' -- comment and uncomment fast
+  use 'b3nj5m1n/kommentary' -- comment and uncomment fast
 
   use 'neovim/nvim-lspconfig' -- configure neovim's native lsp easily
 
