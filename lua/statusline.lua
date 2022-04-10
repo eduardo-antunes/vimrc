@@ -11,6 +11,7 @@ local fmt = string.format
 local mode_sym = {
   ['n']  = 'N',
   ['no'] = 'N',
+  ['nt'] = 'N',
   ['v']  = 'V',
   ['V']  = 'Vl',
   [''] = 'Vb',
@@ -30,12 +31,6 @@ local mode_sym = {
   ['!']  = 'SHELL',
   ['t']  = 'T',
 }
-
-setmetatable(mode_sym, {
-    __index = function ()
-      return 'N'
-    end
-  })
 
 local lsp_sym = {
   errors   = ' E',
@@ -128,14 +123,13 @@ local function git()
                      removed == ''    )
 
   return table.concat {
-    ' ',
+    ' ', 
+    info.head,
+    dirty and '  ' or ' ',
     added,
     changed,
     removed,
-    dirty and ' ' or '',
-    'Git:',
-    info.head,
-    ' |'
+    '|'
   }
 end
 

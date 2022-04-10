@@ -1,5 +1,9 @@
 local this = {}
 
+-- This module is basically where I dump all of my ugly
+-- code so that I don't have to see it in the main
+-- config files.
+
 -- Setting options:
 
 function this.set_options(options)
@@ -15,6 +19,21 @@ function this.set_colors(scheme)
   vim.cmd('colors ' .. scheme)
 end
 
+-- Package management
+
+function this.packer_bootstrap()
+  local prefix = vim.fn.stdpath('data')
+  local path = '/site/pack/packer/start/packer.nvim'
+  local url = 'https://github.com/wbthomason/packer.nvim'
+
+  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    local result = vim.fn.system {
+      'git', 'clone', '--depth', '1', url, prefix .. path
+    }
+  end
+  return result
+end
+
 -- Key binding:
 
 this.bound_functions = {}
@@ -23,16 +42,16 @@ this.bound_count = 1
 function this.bind(mode, lhs, rhs, opts)
   local options = { noremap = true }
   if opts then
-    options = vim.tbl_extend("force", options, opts)
+    options = vim.tbl_extend('force', options, opts)
   end
   if type(rhs) == 'string' then
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
   else
     this.bound_functions[this.bound_count] = rhs
-    local func_rhs = 
-    '<cmd>lua require("utils").bound_functions[' 
-    .. this.bound_count .. 
-    ']()<cr>'
+    local func_rhs = string.format(
+      '<cmd>lua require("utils").bound_functions[%s]()<cr>',
+      this.bound_count
+      )
     this.bound_count = this.bound_count + 1
     vim.api.nvim_set_keymap(mode, lhs, func_rhs, options)
   end
@@ -71,7 +90,7 @@ function this.exec(str)
 end
 
 function this.term(str)
-  return string.format('<cmd>term %s<cr>', str)
+  return string.format('<cmd>vertical term %s<cr>', str)
 end
 
 function this.pr(str)

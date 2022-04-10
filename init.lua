@@ -8,7 +8,7 @@ local ed = require 'utils'
 -- Colorscheme and settings:
 
 vim.g.gruvbox_material_statusline_style = 'original'
-vim.g.github_hide_inactive_statusline = false
+vim.g.gruvbox_material_palette = 'mix'
 
 ed.set_colors 'onedark'
 
@@ -24,8 +24,8 @@ ed.set_options {
     tabstop        = 4,
     softtabstop    = 4,
     shiftwidth     = 4,
-    exrc           = true,
     hidden         = true,
+    exrc           = true,
     title          = false,
     errorbells     = false,
     wrap           = false,
@@ -46,6 +46,7 @@ ed.set_options {
     completeopt    = { 'menu', 'menuone', 'noselect' },
     wildmode       = { 'longest', 'list', 'full'     },
 }
+
 
 -- Key bindings:
 
@@ -79,6 +80,7 @@ ed.leader_map {
     ['2']  = function() require('harpoon.ui').nav_file(2) end,
     ['3']  = function() require('harpoon.ui').nav_file(3) end,
     ['4']  = function() require('harpoon.ui').nav_file(4) end,
+    ['5']  = function() require('harpoon.ui').nav_file(5) end,
     ['T']  = function() require('harpoon.term').gotoTerminal(1) end,
     ['t']  = pr 'term ',
 
@@ -88,7 +90,7 @@ ed.leader_map {
     ['ng'] = require('neogit').open,
 
     -- Lsp:
-    ['cc']  = vim.diagnostic.open_float,
+    ['cc'] = vim.diagnostic.open_float,
     ['ca'] = vim.lsp.buf.code_action,
     ['cd'] = vim.lsp.buf.definition,
     ['cr'] = vim.lsp.buf.rename,
@@ -120,10 +122,11 @@ ed.bind('i', '<tab>', function() require('luasnip').jump(1) end)
 
 -- Autocommands
 
+-- I'm not sure why I have to ask for this behavior explicitly
 local text = vim.api.nvim_create_augroup('Text', { clear = true })
 vim.api.nvim_create_autocmd('BufEnter', {
         group = text,
-        pattern = '*.txt',
+        pattern = { '*.txt', 'LICENSE', 'UNLICENSE', 'COPYING' },
         command = 'set ft=text',
     })
 
@@ -138,6 +141,18 @@ vim.api.nvim_create_autocmd('BufEnter', {
         group = asm,
         pattern = '*.asm',
         command = 'set ft=nasm',
+    })
+
+local c = vim.api.nvim_create_augroup('C', { clear = true })
+vim.api.nvim_create_autocmd('FileType', {
+        group = c,
+        pattern = 'c',
+        callback = function ()
+            ed.localleader_map {
+                ['b'] = exec 'make',
+                ['n'] = term 'ninja -C build',
+            }
+        end,
     })
 
 local rust = vim.api.nvim_create_augroup('Rust', { clear = true })
