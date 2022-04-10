@@ -117,8 +117,8 @@ ed.normal_map {
     ['<C-k>'] = exec 'cprev',
 }
 
-ed.bind('t', '<esc>', '<C-\\><C-n>')
-ed.bind('i', '<tab>', function() require('luasnip').jump(1) end)
+vim.keymap.set('t', '<esc>', '<C-\\><C-n>')
+vim.keymap.set('i', '<tab>', function() require('luasnip').jump(1) end)
 
 -- Autocommands
 

@@ -32,10 +32,10 @@ return require('packer').startup(function()
   use { 
     'nvim-telescope/telescope-fzf-native.nvim', 
     requires = 'nvim-telescope/telescope.nvim',
-    run = 'make',
     config = function()
       require('telescope').load_extension 'fzf'
     end,
+    run = 'make',
   }
 
   -- Colorschemes:
@@ -48,6 +48,8 @@ return require('packer').startup(function()
 
   -- Git:
 
+  use 'tpope/vim-fugitive' -- simple, but effective git
+
   -- git integration for buffers
   use { 
     'lewis6991/gitsigns.nvim',
@@ -55,8 +57,6 @@ return require('packer').startup(function()
       require('gitsigns').setup()
     end,
   }
-
-  use 'tpope/vim-fugitive' -- simple, but effective git
 
   -- magit for neovim
   use {
