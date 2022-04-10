@@ -7,5 +7,5 @@ $ mkdir ~/.config/nvim
 # Clone diretamente com o git:
 $ git clone https://github.com/eduardo-antunes/vimrc ~/.config/nvim
 # Ou com a CLI oficial do github:
-$ gh repo clone eduardo-antunes/vimrc
+$ gh repo clone eduardo-antunes/vimrc ~/.config/nvim
 ```
