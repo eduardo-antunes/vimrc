@@ -11,12 +11,7 @@ require 'lsp'
 
 local ed = require 'utils'
 
--- Colorscheme and settings:
-
-vim.g.gruvbox_material_statusline_style = 'original'
-vim.g.gruvbox_material_palette = 'mix'
-
-ed.set_colors 'onedark'
+-- Visuals and settings:
 
 require('statusline').setup()
 

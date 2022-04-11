@@ -4,9 +4,7 @@
 -- dedication to be an overt act of relinquishment in perpetuity of all
 -- present and future rights to this software under copyright law.
 
-local bootstrap = require('utils').packer_bootstrap()
-
-return require('packer').startup(function()
+return require('packer').startup(function ()
 
   -- Meta:
 
@@ -20,10 +18,18 @@ return require('packer').startup(function()
 
   use 'ThePrimeagen/harpoon' -- fast file switching
 
+  use { 
+    'navarasu/onedark.nvim',
+    config = function ()
+      vim.opt.termguicolors = true
+      require('onedark').load()
+    end,
+  }
+
   -- electric pairs for neovim
   use {
     'windwp/nvim-autopairs',
-    config = function()
+    config = function ()
       require('nvim-autopairs').setup()
     end,
   }
@@ -38,19 +44,11 @@ return require('packer').startup(function()
   use { 
     'nvim-telescope/telescope-fzf-native.nvim', 
     requires = 'nvim-telescope/telescope.nvim',
-    config = function()
+    config = function ()
       require('telescope').load_extension 'fzf'
     end,
     run = 'make',
   }
-
-  -- Colorschemes:
-
-  use 'navarasu/onedark.nvim'
-
-  use 'sainnhe/gruvbox-material'
-
-  use 'drewtempelmeyer/palenight.vim'
 
   -- Git:
 
@@ -59,7 +57,7 @@ return require('packer').startup(function()
   -- git integration for buffers
   use { 
     'lewis6991/gitsigns.nvim',
-    config = function()
+    config = function ()
       require('gitsigns').setup()
     end,
   }
@@ -85,7 +83,7 @@ return require('packer').startup(function()
   -- snippet system
   use { 
     'L3MON4D3/LuaSnip',
-    config = function()
+    config = function ()
       require('luasnip.loaders.from_vscode').lazy_load()
     end,
   }
@@ -105,7 +103,7 @@ return require('packer').startup(function()
   use {
     'gbrlsnchs/telescope-lsp-handlers.nvim',
     requires = 'nvim-telescope/telescope.nvim',
-    config = function()
+    config = function ()
       require('telescope').load_extension 'lsp_handlers'
     end,
   }
@@ -114,15 +112,12 @@ return require('packer').startup(function()
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
-    config = function()
+    config = function ()
       require('nvim-treesitter.configs').setup {
-        ensure_installed = 'maintained',
+        ensure_installed = 'all',
         highlight = { enable = true },
       }
     end,
   }
 
-  if bootstrap then
-    require('packer').sync()
-  end
 end)

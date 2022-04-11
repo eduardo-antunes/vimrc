@@ -6,10 +6,6 @@
 
 local this = {}
 
--- This module is basically where I dump all of my ugly
--- code so that I don't have to see it in the main
--- config files.
-
 -- Setting options:
 
 function this.set_options(options)
@@ -18,14 +14,7 @@ function this.set_options(options)
   end
 end
 
--- Visuals:
-
-function this.set_colors(scheme)
-  vim.opt.termguicolors = true
-  vim.cmd('colors ' .. scheme)
-end
-
--- Key binding:
+-- Bindings keys:
 
 function this.map(mode, bindings, prefix)
   for lhs, rhs in pairs(bindings) do
@@ -67,19 +56,4 @@ function this.pr(str)
   return string.format(':%s', str)
 end
 
--- Packer bootstrapping:
-
-function this.packer_bootstrap()
-  local prefix = vim.fn.stdpath('data')
-  local path = '/site/pack/packer/start/packer.nvim'
-  local url = 'https://github.com/wbthomason/packer.nvim'
-
-  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    local result = vim.fn.system {
-      'git', 'clone', '--depth', '1', url, prefix .. path
-    }
-  end
-  return result
-end
-      
 return this
