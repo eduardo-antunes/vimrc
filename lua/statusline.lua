@@ -123,14 +123,10 @@ local function git()
   if info.changed == 0 then changed = '' end
   if info.removed == 0 then removed = '' end
 
-  local dirty = not (added   == '' and
-                     changed == '' and
-                     removed == ''    )
-
   return table.concat {
-    ' ', 
+    ' Git: ', 
     info.head,
-    dirty and '  ' or ' ',
+    ' ',
     added,
     changed,
     removed,

@@ -4,6 +4,17 @@
 -- dedication to be an overt act of relinquishment in perpetuity of all
 -- present and future rights to this software under copyright law.
 
+-- Packer bootstrap
+local bootstrap = nil
+local data = vim.fn.stdpath 'data'
+local install_path = data..'/site/pack/packer/start/packer.nvim'
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  bootstrap = vim.fn.system(
+    {'git', 'clone', '--depth', '1', 
+      'https://github.com/wbthomason/packer.nvim', install_path
+    })
+end
+
 return require('packer').startup(function ()
 
   -- Meta:
@@ -18,11 +29,13 @@ return require('packer').startup(function ()
 
   use 'ThePrimeagen/harpoon' -- fast file switching
 
-  use { 
-    'navarasu/onedark.nvim',
+  -- pretty colors
+  use {
+    'Mofiqul/vscode.nvim',
     config = function ()
       vim.opt.termguicolors = true
-      require('onedark').load()
+      vim.g.vscode_style = 'dark'
+      require('vscode').set()
     end,
   }
 
@@ -59,6 +72,7 @@ return require('packer').startup(function ()
     'lewis6991/gitsigns.nvim',
     config = function ()
       require('gitsigns').setup()
+      require('gitsigns').toggle_signs()
     end,
   }
 
@@ -78,46 +92,43 @@ return require('packer').startup(function ()
 
   use 'sakhnik/nvim-gdb' -- debugger integration
 
-  use 'hrsh7th/nvim-cmp' -- autocomplete system
-
-  -- snippet system
-  use { 
-    'L3MON4D3/LuaSnip',
-    config = function ()
-      require('luasnip.loaders.from_vscode').lazy_load()
-    end,
-  }
-
-  use 'saadparwaiz1/cmp_luasnip' -- snippets meet autcompletion
-
-  -- autocomplete sources
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-nvim-lua'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-cmdline'
-
-  use 'rafamadriz/friendly-snippets' -- snippet source
-
-  -- fuzzy finder + lsp integration
-  use {
-    'gbrlsnchs/telescope-lsp-handlers.nvim',
-    requires = 'nvim-telescope/telescope.nvim',
-    config = function ()
-      require('telescope').load_extension 'lsp_handlers'
-    end,
-  }
-
   -- crispier syntax highlighting
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     config = function ()
       require('nvim-treesitter.configs').setup {
-        ensure_installed = 'all',
+        ensure_installed = { 
+          'lua', 'c', 'cpp', 'make', 'python', 'bash', 
+          'latex', 'markdown', 'rust', 'toml', 'vimscript',
+        },
         highlight = { enable = true },
       }
     end,
   }
 
+  -- autocomplete and snippets
+  use { 
+    'hrsh7th/nvim-cmp',
+    requires = {
+      -- autocomplete sources
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lua',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      -- snippet system and source
+      'L3MON4D3/LuaSnip',
+      'rafamadriz/friendly-snippets',
+      -- autocomplete source for snippets
+      'saadparwaiz1/cmp_luasnip',
+    },
+    config = function ()
+      require('luasnip.loaders.from_vscode').lazy_load()
+    end,
+  }
+
+  if bootstrap then
+    require('packer').sync()
+  end
 end)

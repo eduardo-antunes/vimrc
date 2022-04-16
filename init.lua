@@ -83,18 +83,18 @@ ed.leader_map {
     ['4']  = function() require('harpoon.ui').nav_file(4) end,
     ['5']  = function() require('harpoon.ui').nav_file(5) end,
     ['T']  = function() require('harpoon.term').gotoTerminal(1) end,
-    ['t']  = pr 'term ',
 
     -- Git:
     ['g']  = pr   'Git ',
     ['G']  = exec 'Gclog',
     ['ng'] = require('neogit').open,
+    ['_']  = require('gitsigns').toggle_signs,
 
     -- Lsp:
     ['cc'] = vim.diagnostic.open_float,
-    ['ca'] = vim.lsp.buf.code_action,
     ['cd'] = vim.lsp.buf.definition,
-    ['cr'] = vim.lsp.buf.rename,
+    ['ca'] = t.lsp_code_actions,
+    ['cm'] = t.lsp_references,
 
     -- Configuration:
     ['oc'] = exec 'tabedit $MYVIMRC',
