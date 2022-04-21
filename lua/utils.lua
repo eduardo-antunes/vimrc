@@ -22,14 +22,6 @@ function this.map(mode, bindings, prefix)
   end
 end
 
-function this.set_leader(leader)
-  vim.g.mapleader = leader
-end
-
-function this.set_localleader(localleader)
-  vim.g.maplocalleader = localleader
-end
-
 function this.normal_map(bindings)
   this.map('n', bindings, '')
 end
@@ -54,6 +46,21 @@ end
 
 function this.pr(str)
   return string.format(':%s', str)
+end
+
+-- Packer bootstrap:
+-- (It's too ugly for plugins.lua)
+
+function this.ensure_packer()
+  local data = vim.fn.stdpath 'data'
+  local install_path = data .. '/site/pack/packer/start/packer.nvim'
+  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    return vim.fn.system(
+      { 'git', 'clone', '--depth', '1', 
+        'https://github.com/wbthomason/packer.nvim', install_path 
+      })
+  end
+  return nil
 end
 
 return this

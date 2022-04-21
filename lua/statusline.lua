@@ -14,27 +14,27 @@ local fmt = string.format
 -- Tables for later
 
 local mode_sym = {
-  ['n']  = 'N',
-  ['no'] = 'N',
-  ['nt'] = 'N',
-  ['v']  = 'V',
-  ['V']  = 'Vl',
-  [''] = 'Vb',
-  ['s']  = 'S',
-  ['S']  = 'Sl',
-  [''] = 'Sb',
-  ['i']  = 'I',
-  ['ic'] = 'I',
-  ['R']  = 'R',
-  ['Rv'] = 'Rv',
-  ['c']  = ':',
+  ['n']  = 'NORMAL',
+  ['no'] = 'NORMAL',
+  ['nt'] = 'NORMAL',
+  ['v']  = 'VISUAL',
+  ['V']  = 'V-LINE',
+  [''] = 'V-BLOCK',
+  ['s']  = 'SELECT',
+  ['S']  = 'S-LINE',
+  [''] = 'S-BLOCK',
+  ['i']  = 'INSERT',
+  ['ic'] = 'INSERT',
+  ['R']  = 'REPLACE',
+  ['Rv'] = 'V-REPLACE',
+  ['c']  = 'COMMAND',
   ['cv'] = 'VIM EX',
   ['ce'] = 'EX',
   ['r']  = 'PROMPT',
   ['rm'] = 'MORE',
   ['r?'] = 'CONFIRM',
   ['!']  = 'SHELL',
-  ['t']  = 'T',
+  ['t']  = 'TERM',
 }
 
 local lsp_sym = {
@@ -74,6 +74,11 @@ local function mode()
   return fmt(' %s |', mode_sym[current_mode])
 end
 
+local function git()
+  local branch = vim.fn.system { 'git', 'branch', '--show-current' }
+  return fmt(' git: %s |', branch:gsub('%s+', ''))
+end
+
 local function position()
   if vim.bo.filetype == 'alpha' then
     return ''
@@ -106,33 +111,6 @@ local function filepath()
 end
 
 -- HERE BE DRAGONS --
-
--- This one requires gitsigns
-local function git()
-  local info = vim.b.gitsigns_status_dict
-
-  if not info or info.head == '' then
-    return ''
-  end
-
-  local added   = info.added   and fmt('+%s ',  info.added)   or ''
-  local changed = info.changed and fmt('~%s ' , info.changed) or ''
-  local removed = info.removed and fmt('-%s ' , info.removed) or ''
-
-  if info.added   == 0 then added   = '' end
-  if info.changed == 0 then changed = '' end
-  if info.removed == 0 then removed = '' end
-
-  return table.concat {
-    ' Git: ', 
-    info.head,
-    ' ',
-    added,
-    changed,
-    removed,
-    '|'
-  }
-end
 
 local function lsp()
   local count  = {}

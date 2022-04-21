@@ -48,11 +48,10 @@ ed.set_options {
     wildmode       = { 'longest', 'list', 'full'     },
 }
 
-
 -- Key bindings:
 
-ed.set_leader ' '
-ed.set_localleader ','
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ','
 
 local exec, term, pr = ed.exec, ed.term, ed.pr
 
@@ -60,19 +59,17 @@ local t = require 'telescope.builtin'
 
 ed.leader_map {
 
-    -- General:
+    -- File management:
     ['e']  = pr 'e %:h/',
     ['r']  = pr 'Rename ',
     ['ff'] = pr 'Move ',
     ['fd'] = pr 'Mkdir ',
 
     -- Telescope:
+    [' ']  = t.buffers,
     ['.']  = t.find_files,
     [':']  = t.commands,
-    ['-']  = t.colorscheme,
     ['K']  = t.help_tags,
-    ['M']  = t.man_pages,
-    ['b']  = t.buffers,
 
     -- Harpoon:
     ['H']  = require('harpoon.mark').add_file,
@@ -82,23 +79,17 @@ ed.leader_map {
     ['3']  = function() require('harpoon.ui').nav_file(3) end,
     ['4']  = function() require('harpoon.ui').nav_file(4) end,
     ['5']  = function() require('harpoon.ui').nav_file(5) end,
-    ['T']  = function() require('harpoon.term').gotoTerminal(1) end,
+    ['t']  = function() require('harpoon.term').gotoTerminal(1) end,
 
     -- Git:
-    ['g']  = pr   'Git ',
-    ['G']  = exec 'Gclog',
+    ['g']  = pr 'Git ',
     ['ng'] = require('neogit').open,
-    ['_']  = require('gitsigns').toggle_signs,
 
     -- Lsp:
     ['cc'] = vim.diagnostic.open_float,
     ['cd'] = vim.lsp.buf.definition,
     ['ca'] = t.lsp_code_actions,
     ['cm'] = t.lsp_references,
-
-    -- Configuration:
-    ['oc'] = exec 'tabedit $MYVIMRC',
-    ['x']  = exec 'source %',
 
     -- Local quickfix:
     ['q']  = exec 'lopen',

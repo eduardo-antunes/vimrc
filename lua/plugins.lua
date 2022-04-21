@@ -4,16 +4,7 @@
 -- dedication to be an overt act of relinquishment in perpetuity of all
 -- present and future rights to this software under copyright law.
 
--- Packer bootstrap
-local bootstrap = nil
-local data = vim.fn.stdpath 'data'
-local install_path = data..'/site/pack/packer/start/packer.nvim'
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  bootstrap = vim.fn.system(
-    {'git', 'clone', '--depth', '1', 
-      'https://github.com/wbthomason/packer.nvim', install_path
-    })
-end
+local bootstrap = require('utils').ensure_packer()
 
 return require('packer').startup(function ()
 
@@ -30,12 +21,14 @@ return require('packer').startup(function ()
   use 'ThePrimeagen/harpoon' -- fast file switching
 
   -- pretty colors
-  use {
-    'Mofiqul/vscode.nvim',
+  use { 
+    'navarasu/onedark.nvim',
     config = function ()
-      vim.opt.termguicolors = true
-      vim.g.vscode_style = 'dark'
-      require('vscode').set()
+      require('onedark').setup {
+        style = 'darker',
+        toggle_style_key = '<leader>Ts',
+      }
+      require('onedark').load()
     end,
   }
 
@@ -65,18 +58,8 @@ return require('packer').startup(function ()
 
   -- Git:
 
-  use 'tpope/vim-fugitive' -- simple, but effective git
+  use 'tpope/vim-fugitive'
 
-  -- git integration for buffers
-  use { 
-    'lewis6991/gitsigns.nvim',
-    config = function ()
-      require('gitsigns').setup()
-      require('gitsigns').toggle_signs()
-    end,
-  }
-
-  -- magit for neovim
   use {
     'TimUntersberger/neogit',
     requires = 'nvim-lua/plenary.nvim',
@@ -100,7 +83,8 @@ return require('packer').startup(function ()
       require('nvim-treesitter.configs').setup {
         ensure_installed = { 
           'lua', 'c', 'cpp', 'make', 'python', 'bash', 
-          'latex', 'markdown', 'rust', 'toml', 'vimscript',
+          'latex', 'markdown', 'rust', 'toml', 'vim',
+          'html',
         },
         highlight = { enable = true },
       }
