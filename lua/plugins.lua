@@ -14,13 +14,38 @@ return require('packer').startup(function ()
 
   -- General:
 
-  use 'tpope/vim-surround' -- cool surround motions
+  use 'tpope/vim-surround' -- cool surrounding operations
 
   use 'tpope/vim-eunuch' -- simple, but effective file management
 
   use 'ThePrimeagen/harpoon' -- fast file switching
 
-  -- pretty colors
+  -- automatically close matching delimiters
+  use {
+    'windwp/nvim-autopairs',
+    config = function ()
+      require('nvim-autopairs').setup()
+    end,
+  }
+
+  -- fuzzy finding for fast searches
+  use { 
+    'nvim-telescope/telescope.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+  }
+
+  -- native fuzzy finding for even faster searches
+  use { 
+    'nvim-telescope/telescope-fzf-native.nvim', 
+    requires = 'nvim-telescope/telescope.nvim',
+    config = function ()
+      require('telescope').load_extension 'fzf'
+    end,
+    run = 'make',
+  }
+
+  -- Colorschemes:
+
   use { 
     'navarasu/onedark.nvim',
     config = function ()
@@ -32,34 +57,11 @@ return require('packer').startup(function ()
     end,
   }
 
-  -- electric pairs for neovim
-  use {
-    'windwp/nvim-autopairs',
-    config = function ()
-      require('nvim-autopairs').setup()
-    end,
-  }
-
-  -- fuzzy finding
-  use { 
-    'nvim-telescope/telescope.nvim',
-    requires = 'nvim-lua/plenary.nvim',
-  }
-
-  -- fuzzy finding meets native speed
-  use { 
-    'nvim-telescope/telescope-fzf-native.nvim', 
-    requires = 'nvim-telescope/telescope.nvim',
-    config = function ()
-      require('telescope').load_extension 'fzf'
-    end,
-    run = 'make',
-  }
-
   -- Git:
 
-  use 'tpope/vim-fugitive'
+  use 'tpope/vim-fugitive' -- simple, but effective git
 
+  -- neogit is magit for neovim
   use {
     'TimUntersberger/neogit',
     requires = 'nvim-lua/plenary.nvim',
@@ -84,7 +86,6 @@ return require('packer').startup(function ()
         ensure_installed = { 
           'lua', 'c', 'cpp', 'make', 'python', 'bash', 
           'latex', 'markdown', 'rust', 'toml', 'vim',
-          'html',
         },
         highlight = { enable = true },
       }
@@ -115,4 +116,5 @@ return require('packer').startup(function ()
   if bootstrap then
     require('packer').sync()
   end
+
 end)

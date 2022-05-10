@@ -82,12 +82,12 @@ ed.leader_map {
     ['t']  = function() require('harpoon.term').gotoTerminal(1) end,
 
     -- Git:
-    ['g']  = pr 'Git ',
-    ['ng'] = require('neogit').open,
+    ['g'] = require('neogit').open,
 
     -- Lsp:
     ['cc'] = vim.diagnostic.open_float,
     ['cd'] = vim.lsp.buf.definition,
+    ['cr'] = vim.lsp.buf.rename,
     ['ca'] = t.lsp_code_actions,
     ['cm'] = t.lsp_references,
 
@@ -98,6 +98,8 @@ ed.leader_map {
 
     -- Others:
     ['w']  = '<C-w>',
+    ['v']  = '<C-d>',
+    ['u']  = '<C-u>',
     ['p']  = '"+p',
     ['s']  = pr '%s/',
 }
@@ -110,7 +112,7 @@ ed.normal_map {
 }
 
 vim.keymap.set('t', '<esc>', '<C-\\><C-n>')
-vim.keymap.set('i', '<tab>', function() require('luasnip').jump(1) end)
+vim.keymap.set('i', '<C-Space>', function() require('luasnip').jump(1) end)
 
 -- Autocommands
 
@@ -120,6 +122,13 @@ vim.api.nvim_create_autocmd('BufEnter', {
         group = text,
         pattern = { '*.txt', 'LICENSE', 'UNLICENSE', 'COPYING' },
         command = 'set ft=text',
+    })
+
+local latex = vim.api.nvim_create_augroup('LaTeX', { clear = true })
+vim.api.nvim_create_autocmd('BufEnter', {
+        group = latex,
+        pattern = '*.tex',
+        command = 'set ft=latex'
     })
 
 local terminal = vim.api.nvim_create_augroup('Terminal', { clear = true })
@@ -133,18 +142,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
         group = asm,
         pattern = '*.asm',
         command = 'set ft=nasm',
-    })
-
-local c = vim.api.nvim_create_augroup('C', { clear = true })
-vim.api.nvim_create_autocmd('FileType', {
-        group = c,
-        pattern = 'c',
-        callback = function ()
-            ed.localleader_map {
-                ['b'] = exec 'make',
-                ['n'] = term 'ninja -C build',
-            }
-        end,
     })
 
 local rust = vim.api.nvim_create_augroup('Rust', { clear = true })

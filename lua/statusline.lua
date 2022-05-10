@@ -34,7 +34,7 @@ local mode_sym = {
   ['rm'] = 'MORE',
   ['r?'] = 'CONFIRM',
   ['!']  = 'SHELL',
-  ['t']  = 'TERM',
+  ['t']  = 'TERMINAL',
 }
 
 local lsp_sym = {
@@ -75,7 +75,8 @@ local function mode()
 end
 
 local function git()
-  local branch = vim.fn.system { 'git', 'branch', '--show-current' }
+  local branch = vim.fn.system { 'git', 'symbolic-ref', '--short', 'HEAD' }
+  if branch:find('^fatal: not a git repository') then return '' end
   return fmt(' git: %s |', branch:gsub('%s+', ''))
 end
 
