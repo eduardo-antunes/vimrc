@@ -18,7 +18,20 @@ return require('packer').startup(function ()
 
   use 'tpope/vim-eunuch' -- simple, but effective file management
 
-  use 'ThePrimeagen/harpoon' -- fast file switching
+  -- effective terminal wrapper
+  use {
+    'akinsho/toggleterm.nvim',
+    config = function ()
+      require('toggleterm').setup {
+        open_mapping = [[<c-\>]],
+        direction = 'float',
+        float_opts = {
+          border = 'curved',
+        },
+      }
+    end,
+    tag = 'v1.*',
+  }
 
   -- automatically close matching delimiters
   use {

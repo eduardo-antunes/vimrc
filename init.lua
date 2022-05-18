@@ -59,27 +59,11 @@ local t = require 'telescope.builtin'
 
 ed.leader_map {
 
-    -- File management:
-    ['e']  = pr 'e %:h/',
-    ['r']  = pr 'Rename ',
-    ['ff'] = pr 'Move ',
-    ['fd'] = pr 'Mkdir ',
-
-    -- Telescope:
+    ['e']  = ':e %:h/',
     [' ']  = t.buffers,
     ['.']  = t.find_files,
     [':']  = t.commands,
     ['K']  = t.help_tags,
-
-    -- Harpoon:
-    ['H']  = require('harpoon.mark').add_file,
-    ['h']  = require('harpoon.ui').toggle_quick_menu,
-    ['1']  = function() require('harpoon.ui').nav_file(1) end,
-    ['2']  = function() require('harpoon.ui').nav_file(2) end,
-    ['3']  = function() require('harpoon.ui').nav_file(3) end,
-    ['4']  = function() require('harpoon.ui').nav_file(4) end,
-    ['5']  = function() require('harpoon.ui').nav_file(5) end,
-    ['t']  = function() require('harpoon.term').gotoTerminal(1) end,
 
     -- Git:
     ['g'] = require('neogit').open,
@@ -101,7 +85,7 @@ ed.leader_map {
     ['v']  = '<C-d>',
     ['u']  = '<C-u>',
     ['p']  = '"+p',
-    ['s']  = pr '%s/',
+    ['s']  = ':%s/',
 }
 
 ed.normal_map {
@@ -150,7 +134,7 @@ vim.api.nvim_create_autocmd('FileType', {
         pattern = 'rust',
         callback = function ()
             ed.localleader_map {
-                ['r'] = pr 'term cargo run ',
+                ['r'] = ':term cargo run ',
                 ['c'] = term 'cargo check',
                 ['b'] = term 'cargo build',
                 ['d'] = term 'cargo doc --open',
