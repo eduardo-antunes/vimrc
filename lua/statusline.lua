@@ -66,7 +66,7 @@ local lsp_sym = {
 local spacer = '%=%#StatusLineExtra#'
 
 local function filetype()
-  return fmt(' %s ', vim.bo.filetype:upper())
+  return fmt(' %s ', vim.bo.filetype)
 end
 
 local function mode()
@@ -168,12 +168,10 @@ end
 
 function this.setup()
   local augroup = vim.api.nvim_create_augroup('StatusLine', { clear = true })
-
   vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, {
       group = augroup,
       command = "setlocal statusline=%!v:lua.require'statusline'.active()",
     })
-
   vim.api.nvim_create_autocmd({ 'WinLeave', 'BufLeave' }, {
       group = augroup,
       command = "setlocal statusline=%!v:lua.require'statusline'.inactive()",

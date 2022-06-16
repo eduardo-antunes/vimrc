@@ -27,7 +27,7 @@ ed.set_options {
     shiftwidth     = 4,
     hidden         = true,
     exrc           = true,
-    title          = false,
+    title          = true,
     errorbells     = false,
     wrap           = false,
     showcmd        = false,
@@ -53,7 +53,7 @@ ed.set_options {
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
-local exec, term, pr = ed.exec, ed.term, ed.pr
+local exec, term = ed.exec, ed.term
 
 local t = require 'telescope.builtin'
 
@@ -66,6 +66,7 @@ ed.leader_map {
     ['K']  = t.help_tags,
 
     -- Git:
+    ['G'] = ':Git ',
     ['g'] = require('neogit').open,
 
     -- Lsp:
@@ -96,7 +97,7 @@ ed.normal_map {
 }
 
 vim.keymap.set('t', '<esc>', '<C-\\><C-n>')
-vim.keymap.set('i', '<C-Space>', function() require('luasnip').jump(1) end)
+vim.keymap.set('i', '<C-n>', function() require('luasnip').jump(1) end)
 
 -- Autocommands
 
@@ -113,12 +114,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
         group = latex,
         pattern = '*.tex',
         command = 'set ft=latex'
-    })
-
-local terminal = vim.api.nvim_create_augroup('Terminal', { clear = true })
-vim.api.nvim_create_autocmd('TermOpen', {
-        group = terminal,
-        command = 'setlocal nonumber norelativenumber',
     })
 
 local asm = vim.api.nvim_create_augroup('Assembly', { clear = true })
