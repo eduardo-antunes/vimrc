@@ -57,16 +57,30 @@ return require('packer').startup(function ()
     run = 'make',
   }
 
-  -- Colorschemes:
+  -- Looks:
 
-  use { 
+  use {
     'navarasu/onedark.nvim',
     config = function ()
       require('onedark').setup {
         style = 'darker',
-        toggle_style_key = '<leader>Ts',
       }
       require('onedark').load()
+    end,
+  }
+
+  use {
+    'nvim-lualine/lualine.nvim',
+    config = function ()
+      require('lualine').setup {
+        options = {
+          theme = 'onedark',
+          icons_enabled = false,
+        },
+        sections = {
+          lualine_x = { 'filetype' },
+        },
+      }
     end,
   }
 

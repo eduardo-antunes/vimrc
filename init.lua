@@ -11,9 +11,7 @@ require 'lsp'
 
 local ed = require 'utils'
 
--- Visuals and settings:
-
-require('statusline').setup()
+-- Settings:
 
 local undodir = vim.fn.stdpath 'cache' .. '/undodir'
 
@@ -85,6 +83,8 @@ ed.leader_map {
     ['w']  = '<C-w>',
     ['v']  = '<C-d>',
     ['u']  = '<C-u>',
+    ['a']  = 'GVgg',
+    ['A']  = 'ggVG',
     ['p']  = '"+p',
     ['s']  = ':%s/',
 }
