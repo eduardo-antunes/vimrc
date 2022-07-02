@@ -76,8 +76,11 @@ return require('packer').startup(function ()
         options = {
           theme = 'onedark',
           icons_enabled = false,
+          section_separators = {},
+          component_separators = { left = '|', right = '|' },
         },
         sections = {
+          lualine_c = { { 'filename', path = 1 } },
           lualine_x = { 'filetype' },
         },
       }
@@ -112,7 +115,7 @@ return require('packer').startup(function ()
       require('nvim-treesitter.configs').setup {
         ensure_installed = { 
           'lua', 'c', 'cpp', 'make', 'python', 'bash', 
-          'latex', 'markdown', 'rust', 'toml', 'vim',
+          'latex', 'rust', 'markdown', 'toml', 'vim',
         },
         highlight = { enable = true },
       }

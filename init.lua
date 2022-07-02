@@ -7,7 +7,7 @@
 -- Loading external modules:
 
 require 'plugins'
-require 'lsp'
+require 'support'
 
 local ed = require 'utils'
 
@@ -71,8 +71,8 @@ ed.leader_map {
     ['cc'] = vim.diagnostic.open_float,
     ['cd'] = vim.lsp.buf.definition,
     ['cr'] = vim.lsp.buf.rename,
-    ['ca'] = t.lsp_code_actions,
-    ['cm'] = t.lsp_references,
+    ['ca'] = vim.lsp.buf.code_action,
+    ['cm'] = vim.lsp.buf.references,
 
     -- Local quickfix:
     ['q']  = exec 'lopen',
