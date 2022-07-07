@@ -51,7 +51,7 @@ function this.ensure_packer()
   local data = vim.fn.stdpath 'data'
   local install_path = data .. '/site/pack/packer/start/packer.nvim'
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    return vim.fn.system { 
+    vim.fn.system { 
       'git', 
       'clone', 
       '--depth', 
@@ -59,6 +59,7 @@ function this.ensure_packer()
       'https://github.com/wbthomason/packer.nvim',
       install_path 
     }
+    return true
   end
   return nil
 end

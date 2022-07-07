@@ -24,10 +24,6 @@ return require('packer').startup(function ()
     config = function ()
       require('toggleterm').setup {
         open_mapping = [[<c-\>]],
-        direction = 'float',
-        float_opts = {
-          border = 'curved',
-        },
       }
     end,
     tag = 'v1.*',
@@ -59,18 +55,18 @@ return require('packer').startup(function ()
 
   -- Looks:
 
+  -- pretty colors
   use {
     'navarasu/onedark.nvim',
     config = function ()
-      require('onedark').setup {
-        style = 'darker',
-      }
       require('onedark').load()
     end,
   }
 
+  -- pretty statusline
   use {
     'nvim-lualine/lualine.nvim',
+    after = 'onedark.nvim',
     config = function ()
       require('lualine').setup {
         options = {
@@ -106,6 +102,12 @@ return require('packer').startup(function ()
   use 'neovim/nvim-lspconfig' -- configure neovim's native lsp easily
 
   use 'sakhnik/nvim-gdb' -- debugger integration
+
+  -- quickly and elegantly cheating
+  use { 
+    'RishabhRD/nvim-cheat.sh',
+    requires = 'RishabhRD/popfix',
+  }
 
   -- crispier syntax highlighting
   use {

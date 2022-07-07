@@ -61,18 +61,22 @@ ed.leader_map {
     [' ']  = t.buffers,
     ['.']  = t.find_files,
     [':']  = t.commands,
-    ['K']  = t.help_tags,
+    ['h']  = t.help_tags,
 
     -- Git:
     ['G'] = ':Git ',
     ['g'] = require('neogit').open,
 
     -- Lsp:
-    ['cc'] = vim.diagnostic.open_float,
-    ['cd'] = vim.lsp.buf.definition,
-    ['cr'] = vim.lsp.buf.rename,
-    ['ca'] = vim.lsp.buf.code_action,
-    ['cm'] = vim.lsp.buf.references,
+    ['d']  = vim.diagnostic.open_float,
+    ['ld'] = vim.lsp.buf.definition,
+    ['lr'] = vim.lsp.buf.rename,
+    ['la'] = vim.lsp.buf.code_action,
+    ['lm'] = vim.lsp.buf.references,
+
+    -- Cheating:
+    ['ch'] = exec 'Cheat',
+    ['cn'] = exec 'CheatWithoutComments',
 
     -- Local quickfix:
     ['q']  = exec 'lopen',
